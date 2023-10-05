@@ -1,51 +1,49 @@
+
+function sleep(time) {
+    return new Promise(resolve => {
+        setTimeout(resolve, time);
+    });
+}
+
+
 function newNonPlayableCharacter(x, y) {
-    let element = newImage('assets/red-character/static.gif')
+    let element = new Image('assets/red-character/static.gif');
     element.style.zIndex = 1;
-    
+
     let direction = null;
 
     function moveCharacter() {
-        if (direction === 'west') {
-            x -= 1
-        }
-        if (direction === 'north') {
-            y += 1
-        }
-        if (direction === 'east') {
-            x += 1
-        }
-        if (direction === 'south') {
-            y -= 1
-        }
-        element.style.left = x + 'px'
-        element.style.bottom = y + 'px'
+        
     }
 
-    setInterval(moveCharacter, 1)
+    setInterval(moveCharacter, 1);
 
-    function walkEast() {
-        direction = 'east'
-        element.src = `./assets/red-character/east.gif`
+    async function walkEast(time) {
+        direction = 'east';
+        element.src = './assets/red-character/east.gif';
+
+       
+        await sleep(time);
+
+        
+        stop();
     }
 
-    function walkNorth() {
-        direction = 'north'
-        element.src = `./assets/red-character/north.gif`
+    async function walkNorth(time) {
+        
     }
 
-    function walkWest() {
-        direction = 'west'
-        element.src = `./assets/red-character/west.gif`
+    async function walkSouth(time) {
+        
     }
 
-    function walkSouth() {
-        direction = 'south'
-        element.src = `./assets/red-character/south.gif`
+    async function walkWest(time) {
+       
     }
 
     function stop() {
-        direction = null
-        element.src = `./assets/red-character/static.gif`
+        direction = null;
+        element.src = './assets/red-character/static.gif';
     }
 
     return {
@@ -55,5 +53,28 @@ function newNonPlayableCharacter(x, y) {
         walkEast: walkEast,
         walkSouth: walkSouth,
         stop: stop
-    }
+    };
 }
+
+
+async function walkAroundScreen(npc) {
+    
+    await npc.walkEast(2000);
+    await npc.walkNorth(1400);
+    await npc.walkEast(1200);
+    await npc.walkSouth(300);
+    await npc.walkEast(1500);
+    await npc.walkSouth(1500);
+    await npc.walkWest(2700);
+    await npc.walkNorth(400);
+    await npc.walkWest(1500);
+    await npc.walkNorth(300);
+    await npc.walkWest(1200);
+    await npc.walkSouth(1400);
+}
+
+
+const npc = newNonPlayableCharacter(0, 0);
+
+
+walkAroundScreen(npc);
